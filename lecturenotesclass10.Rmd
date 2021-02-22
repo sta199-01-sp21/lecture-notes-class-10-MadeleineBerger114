@@ -79,13 +79,19 @@ marbles <- c("red", "red", "white", "red", "blue", "blue", "red", "blue")
 
 Suppose we draw a single marble from our imaginary box, where all the marbles
 are equally likely to be selected. What is the probability the marble is blue? 
+
+3/8
+
 How about white?
+
+1/8
 
 We can simulate this "drawing" with the `sample()` function.
 
 ```{r sample}
 sample(marbles, size = 1)
 ```
+Using set.seed(100) would make it the same every time. 
 
 We produced one random outcome from this experiment. To estimate the probability 
 of say getting a white marble, we need to repeat this experiment many many
@@ -107,6 +113,8 @@ prop.table(counts)
 
 How close is this value to the "true" probability?
 
+Very close. Red is slightly below, blue is slightly above, and white is pretty much spot-on, and as you increase the sample size, these probabilities will get closer and closer to the "true" probabilities. 
+
 **To summarize our process:**
 
 1. We defined the sample space for our experiment - `marbles`
@@ -122,6 +130,8 @@ color if we make two draws with replacement? We haven't discussed how to
 compute this theoretically yet, but this is what computers are good at.
 
 Before we do this, what is your guess as to what the probability will be?
+
+I would guess that this would be somewhat unlikely. 
 
 We'll still use `sample()` to run our simulation many times, but we'll
 use `dplyr` functions to compute the relative frequencies.
@@ -151,6 +161,7 @@ two_draw_results %>%
   count(color_match) %>% 
   mutate(proportion = n / sum(n))
 ```
+It is false 59.88% of the time, and true 40.12% of the time, so my hypothesis that it was somewhat unlikely was true. The match still happens often but it is more unlikely than not.
 
 ## Practice
 
@@ -163,7 +174,10 @@ Perform a simulation to compute this empirical probability.
 Write down your guess to the answer before you calculate it.
 
 ```{r simulate_rolls}
-
+roll_results <- tibble(
+  die_1 = replicate(n = 10000, expr = sample(1:6, size = 1)),
+  die_2 = replicate(n = 10000, expr = sample(1:6, size = 1))
+)
 ```
 
 ```{r identify_events}
