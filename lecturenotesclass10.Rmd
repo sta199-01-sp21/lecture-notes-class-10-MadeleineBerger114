@@ -161,7 +161,7 @@ two_draw_results %>%
   count(color_match) %>% 
   mutate(proportion = n / sum(n))
 ```
-It is false 59.88% of the time, and true 40.12% of the time, so my hypothesis that it was somewhat unlikely was true. The match still happens often but it is more unlikely than not.
+It is false 59.88% of the time, and true 40.12% of the time, so my hypothesis that it would be somewhat unlikely was true. The match still happens often but it is more unlikely than not.
 
 ## Practice
 
@@ -172,6 +172,7 @@ difference between dice roll 1 and dice roll 2 is equal to 4.
 Perform a simulation to compute this empirical probability.
 
 Write down your guess to the answer before you calculate it.
+I would guess that it would be more likely for the absolute value of the difference between dice roll 1 and dice roll 2 to be equal to 4. 
 
 ```{r simulate_rolls}
 roll_results <- tibble(
@@ -181,12 +182,18 @@ roll_results <- tibble(
 ```
 
 ```{r identify_events}
-
+roll_results <- roll_results %>% 
+  mutate(event_1 = die_1 ^ 2 == die_2,
+         event_2 = abs(die_1 - die_2) == 4)
+roll_results
 ```
 
 ```{r summarize_rolls}
-
+roll_results %>% 
+  summarize(event_1_prob = mean(event_1),
+            event_2_prob = mean(event_2))
 ```
+My hypothesis was correct. 
 
 ## Additional Resources-please look at before Weds.
 
